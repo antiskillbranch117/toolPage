@@ -30,7 +30,21 @@ export default function MainPage() {
         "Find relevant images on the web and display them inline next to the text that describes them.",
       link: "https://images.google.com",
       category: "Search",
-    },
+    },{
+      emoji: "🖼️",
+      name: "Looking Video",
+      description:
+        "Find relevant images on the web and display them inline next to the text that describes them.",
+      link: "https://www.bilibili.com/",
+      category: "Vedio",
+    },{
+      emoji: "🖼️",
+      name: "Looking Video on Youtube",
+      description:
+        "Find relevant images on the web and display them inline next to the text that describes them.",
+      link: "https://www.bilibili.com/",
+      category: "Vedio",
+    }
   ];
 
   return (
