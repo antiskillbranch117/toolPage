@@ -1,16 +1,62 @@
-# React + Vite
+# Tool Hub Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Notion-style tool directory for browsing and discovering available tools. Built with React, Ant Design, and Tailwind CSS.
 
-Currently, two official plugins are available:
+**Live site:** [https://antiskillbranch117.github.io/toolPage/](https://antiskillbranch117.github.io/toolPage/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Three views** — switch between Gallery, Table, and By Category
+- **Search** — quickly find a tool by name and jump to it directly
+- **Gallery View** — card grid with emoji, name, and description
+- **Table View** — table with name, description, category label, and link
+- **By Category** — collapsible sections grouping tools by category
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- [React 18](https://react.dev/)
+- [Ant Design 5](https://ant.design/) — UI components (Card, Table, Collapse, Tag, Select)
+- [Tailwind CSS 3](https://tailwindcss.com/) — utility styling
+- [Vite](https://vitejs.dev/) — build tool
+
+## Project Structure
+
+```
+src/
+└── components/
+    ├── MainPage.jsx        # Root layout, view state, tools data, search select
+    ├── GalleryView.jsx     # Responsive card grid
+    ├── TableView.jsx       # Ant Design table with category tags and links
+    ├── CategoryPage.jsx    # Groups tools by category, renders CategorySections
+    ├── CategorySection.jsx # Single collapsible category (Ant Design Collapse)
+    └── ToolCard.jsx        # Individual tool card (Ant Design Card)
+```
+
+## Adding a Tool
+
+Open `src/components/MainPage.jsx` and add an entry to the `tools` array:
+
+```js
+{
+  emoji: "🛠️",
+  name: "My Tool",
+  description: "What this tool does.",
+  link: "https://example.com",
+  category: "My Category",
+}
+```
+
+The new tool will automatically appear in all three views.
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+## Deployment
+
+The site is deployed automatically to GitHub Pages via GitHub Actions on every push to `main`.

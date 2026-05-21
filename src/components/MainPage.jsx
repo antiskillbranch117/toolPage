@@ -14,38 +14,41 @@ export default function MainPage() {
   const [activeView, setActiveView] = useState("gallery");
 
   // Sample data — replace with your real tools list.
-  const tools = [
-    {
-      emoji: "🔍",
-      name: "Web Search",
-      description:
-        "Search the web for current information, news, and references beyond the model's training cutoff.",
-      link: "https://www.google.com",
-      category: "Search",
-    },
-    {
-      emoji: "🖼️",
-      name: "Image Search",
-      description:
-        "Find relevant images on the web and display them inline next to the text that describes them.",
-      link: "https://images.google.com",
-      category: "Search",
-    },{
-      emoji: "🖼️",
-      name: "Looking Video",
-      description:
-        "Find relevant images on the web and display them inline next to the text that describes them.",
-      link: "https://www.bilibili.com/",
-      category: "Vedio",
-    },{
-      emoji: "🖼️",
-      name: "Looking Video on Youtube",
-      description:
-        "Find relevant images on the web and display them inline next to the text that describes them.",
-      link: "https://www.bilibili.com/",
-      category: "Vedio",
-    }
-  ];
+ const tools = [
+  {
+    emoji: "🧪",
+    name: "GLKB Dev",
+    description:
+      "Development version of the GLKB site for testing new features before production release.",
+    link: "https://dev.glkb.org",
+    category: "Development",
+  },
+  {
+    emoji: "🚀",
+    name: "GLKB Production",
+    description:
+      "Production version of the GLKB site that is currently in use or ready for delivery.",
+    link: "https://glkb.org",
+    category: "Production",
+  },
+  {
+    emoji: "📅",
+    name: "Lab Schedule Manager",
+    description:
+      "Internal lab scheduling tool for managing lab schedules and related resources.",
+    link: "https://scheduler.404nfound.com",
+    backupLink: "http://ec2-13-221-95-92.compute-1.amazonaws.com",
+    category: "Internal Tool",
+  },
+  {
+    emoji: "🗄️",
+    name: "Database Monitor",
+    description:
+      "Internal database monitoring tool for checking database status and related information.",
+    link: "http://ec2-54-82-104-165.compute-1.amazonaws.com:8101/",
+    category: "Internal Tool",
+  },
+];
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
