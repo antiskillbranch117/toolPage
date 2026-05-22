@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Select } from "antd";
+import { Select, Modal } from "antd";
+import { LockOutlined } from "@ant-design/icons";
 import GalleryView from "./GalleryView.jsx";
 import CategoryPage from "./CategoryPage.jsx";
 import TableView from "./TableView.jsx";
+import PasswordDecryptor from "./PasswordDecryptor.jsx";
 
 /**
  * MainPage
@@ -12,6 +14,7 @@ import TableView from "./TableView.jsx";
  */
 export default function MainPage() {
   const [activeView, setActiveView] = useState("gallery");
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
 
   // Sample data — replace with your real tools list.
  const tools = [
@@ -21,7 +24,7 @@ export default function MainPage() {
     description:
       "Development version of the GLKB site for testing new features before production release.",
     link: "https://dev.glkb.org",
-    category: "Development",
+    category: "Website",
   },
   {
     emoji: "🚀",
@@ -29,7 +32,7 @@ export default function MainPage() {
     description:
       "Production version of the GLKB site that is currently in use or ready for delivery.",
     link: "https://glkb.org",
-    category: "Production",
+    category: "Website",
   },
   {
     emoji: "📅",
@@ -38,7 +41,7 @@ export default function MainPage() {
       "Internal lab scheduling tool for managing lab schedules and related resources.",
     link: "https://scheduler.404nfound.com",
     backupLink: "http://ec2-13-221-95-92.compute-1.amazonaws.com",
-    category: "Internal Tool",
+    category: "Schedule Manager",
   },
   {
     emoji: "🗄️",
@@ -46,7 +49,7 @@ export default function MainPage() {
     description:
       "Internal database monitoring tool for checking database status and related information.",
     link: "http://ec2-54-82-104-165.compute-1.amazonaws.com:8101/",
-    category: "Internal Tool",
+    category: "Monitor",
   },
 ];
 
@@ -59,17 +62,9 @@ export default function MainPage() {
         </h1>
 
         <p className="mt-4 text-gray-700 leading-7 max-w-3xl">
-          Help your team keep track of which tools are available. Each card
-          shows a tool name and a short description of what it does.
+          A toolkit web for the GLKB group to test, manage development work, and support project tasks.
         </p>
 
-        <p className="mt-4 text-gray-700 leading-7">
-          ↓ Click{" "}
-          <code className="px-1.5 py-0.5 rounded bg-red-50 text-red-600 text-sm font-mono">
-            Gallery View
-          </code>{" "}
-          below to discover all tools.
-        </p>
 
         {/* View tabs + toolbar */}
         <div className="mt-8 flex items-center justify-between border-b border-gray-200 pb-2">
@@ -100,8 +95,9 @@ export default function MainPage() {
           <div className="flex items-center gap-1 text-gray-500">
             {/* <ToolbarIcon><FilterIcon /></ToolbarIcon> */}
             {/* <ToolbarIcon><SortIcon active /></ToolbarIcon> */}
-            {/* <ToolbarIcon><BoltIcon /></ToolbarIcon> */}
-            {/* <ToolbarIcon><SparkleIcon /></ToolbarIcon> */}
+            <ToolbarIcon onClick={() => setPasswordModalOpen(true)}>
+              <LockOutlined />
+            </ToolbarIcon>
             <Select
               showSearch
               placeholder="Search tools…"
@@ -127,15 +123,31 @@ export default function MainPage() {
         {activeView === "table" && <TableView tools={tools} />}
         {activeView === "category" && <CategoryPage tools={tools} />}
       </div>
+
+      {/* <Modal
+        open={passwordModalOpen}
+        onCancel={() => setPasswordModalOpen(false)}
+        footer={null}
+        title={
+          <span className="flex items-center gap-2">
+            <LockOutlined />
+            Dev Access Passwords
+          </span>
+        }
+        width={700}
+        destroyOnHidden
+      >
+        <PasswordDecryptor embedded />
+      </Modal> */}
     </div>
   );
 }
 
 /* ---------- Small icon helpers (inline SVG, no external deps) ---------- */
 
-function ToolbarIcon({ children }) {
+function ToolbarIcon({ children, onClick }) {
   return (
-    <button className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500">
+    <button onClick={onClick} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500">
       {children}
     </button>
   );
@@ -182,13 +194,7 @@ function SortIcon({ active }) {
     </svg>
   );
 }
-function BoltIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />
-    </svg>
-  );
-}
+
 function SparkleIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
