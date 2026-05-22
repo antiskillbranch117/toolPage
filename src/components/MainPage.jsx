@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select, Modal } from "antd";
+import { Select, Modal, Tooltip } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import GalleryView from "./GalleryView.jsx";
 import CategoryPage from "./CategoryPage.jsx";
@@ -13,7 +13,7 @@ import PasswordDecryptor from "./PasswordDecryptor.jsx";
  * trailing "+ New page" placeholder card.
  */
 export default function MainPage() {
-  const [activeView, setActiveView] = useState("gallery");
+  const [activeView, setActiveView] = useState("category");
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [decryptedMap, setDecryptedMap] = useState({});
 
@@ -72,7 +72,14 @@ export default function MainPage() {
         </h1>
 
         <p className="mt-4 text-gray-700 leading-7 max-w-3xl">
-          A toolkit web for the GLKB group to test, manage development work, and support project tasks.
+          A toolkit web for the GLKB group to test, manage development work, and support project tasks. Please contact{" "}
+          <a
+            href="mailto:lzy@umich.edu"
+            className="font-medium text-blue-600 underline hover:text-blue-800"
+          >
+            lzy@umich.edu
+          </a>{" "}
+          for password.
         </p>
 
 
@@ -105,9 +112,11 @@ export default function MainPage() {
           <div className="flex items-center gap-1 text-gray-500">
             {/* <ToolbarIcon><FilterIcon /></ToolbarIcon> */}
             {/* <ToolbarIcon><SortIcon active /></ToolbarIcon> */}
-            <ToolbarIcon onClick={() => setPasswordModalOpen(true)}>
-              <LockOutlined />
-            </ToolbarIcon>
+            <Tooltip title="Input the password to unlock the username and key of the tools">
+              <ToolbarIcon onClick={() => setPasswordModalOpen(true)}>
+                <LockOutlined />
+              </ToolbarIcon>
+            </Tooltip>
             <Select
               showSearch
               placeholder="Search tools…"
@@ -155,9 +164,9 @@ export default function MainPage() {
 
 /* ---------- Small icon helpers (inline SVG, no external deps) ---------- */
 
-function ToolbarIcon({ children, onClick }) {
+function ToolbarIcon({ children, onClick, ...rest }) {
   return (
-    <button onClick={onClick} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500">
+    <button onClick={onClick} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500" {...rest}>
       {children}
     </button>
   );
