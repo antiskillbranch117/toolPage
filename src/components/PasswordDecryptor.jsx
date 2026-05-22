@@ -7,13 +7,11 @@ const { Title, Text } = Typography;
 const SALT_LEN = 16;
 const NONCE_LEN = 12;
 const PBKDF2_ITERATIONS = 600_000;
-const ENC_FILE_URL = "/PasswordForDevAccess.csv.enc";
 
 async function deriveKey(password, salt) {
-  const enc = new TextEncoder();
   const baseKey = await crypto.subtle.importKey(
     "raw",
-    enc.encode(password),
+    new TextEncoder().encode(password),
     "PBKDF2",
     false,
     ["deriveKey"]
@@ -27,74 +25,74 @@ async function deriveKey(password, salt) {
   );
 }
 
-function parseCSV(text) {
-  const lines = text.trim().split("\n").filter(Boolean);
-  if (lines.length === 0) return { columns: [], rows: [] };
-
-  const parse = (line) =>
-    line.split(",").map((cell) => cell.trim().replace(/^"|"$/g, ""));
-
-  const headers = parse(lines[0]);
-  const dataLines = lines.slice(1);
-
-  const columns = headers.map((h, i) => ({
-    title: h || `Col ${i + 1}`,
-    dataIndex: `col${i}`,
-    key: `col${i}`,
-    ellipsis: true,
-  }));
-
-  const rows = dataLines.map((line, rowIdx) => {
-    const cells = parse(line);
-    const row = { key: rowIdx };
-    headers.forEach((_, i) => {
-      row[`col${i}`] = cells[i] ?? "";
-    });
-    return row;
-  });
-
-  return { columns, rows };
+function b64ToBytes(b64) {
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
 }
 
-export default function PasswordDecryptor({ embedded = false }) {
+async function decryptBlob(password, b64) {
+  const blob = b64ToBytes(b64);
+  const salt       = blob.slice(0, SALT_LEN);
+  const nonce      = blob.slice(SALT_LEN, SALT_LEN + NONCE_LEN);
+  const ciphertext = blob.slice(SALT_LEN + NONCE_LEN);
+  const key = await deriveKey(password, salt);
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: nonce }, key, ciphertext);
+  return new TextDecoder().decode(plain);
+}
+
+const resultColumns = [
+  { title: "Tool", dataIndex: "name", key: "name",
+    render: (name, record) => <span>{record.emoji} {name}</span> },
+  { title: "Username", dataIndex: "username", key: "username",
+    render: (u) => u
+      ? <code className="px-1.5 py-0.5 rounded bg-gray-100 text-sm font-mono">{u}</code>
+      : <span className="text-gray-400 text-sm">—</span> },
+  { title: "Password", dataIndex: "password", key: "password",
+    render: (pw) => <code className="px-1.5 py-0.5 rounded bg-gray-100 text-sm font-mono">{pw}</code> },
+];
+
+export default function PasswordDecryptor({ embedded = false, tools = [], onDecrypt }) {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
-  const [tableData, setTableData] = useState(null);
+  const [rows, setRows] = useState([]);
+
+  const targets = tools.filter((t) => t.encryptedCredentials);
+  const notConfigured = targets.length === 0;
 
   async function handleDecrypt() {
-    if (!password) return;
+    if (!password || notConfigured) return;
     setStatus("loading");
     setErrorMsg("");
-    setTableData(null);
+    setRows([]);
 
     try {
-      const res = await fetch(ENC_FILE_URL);
-      if (!res.ok) throw new Error("Failed to fetch encrypted file.");
-      const buffer = await res.arrayBuffer();
-      const data = new Uint8Array(buffer);
-
-      const salt = data.slice(0, SALT_LEN);
-      const nonce = data.slice(SALT_LEN, SALT_LEN + NONCE_LEN);
-      const ciphertext = data.slice(SALT_LEN + NONCE_LEN);
-
-      const key = await deriveKey(password, salt);
-      const plainBuffer = await crypto.subtle.decrypt(
-        { name: "AES-GCM", iv: nonce },
-        key,
-        ciphertext
+      const results = await Promise.all(
+        targets.map(async (tool) => {
+          const plaintext = await decryptBlob(password, tool.encryptedCredentials);
+          const creds = JSON.parse(plaintext);
+          return {
+            key: tool.name,
+            emoji: tool.emoji,
+            name: tool.name,
+            username: creds.username ?? null,
+            password: creds.password,
+          };
+        })
       );
-
-      const text = new TextDecoder().decode(plainBuffer);
-      setTableData(parseCSV(text));
+      setRows(results);
       setStatus("success");
-    } catch (e) {
+      if (onDecrypt) {
+        const map = Object.fromEntries(
+          results.map(({ name, username, password }) => [name, { username, password }])
+        );
+        onDecrypt(map);
+      }
+    } catch {
       setStatus("error");
-      setErrorMsg(
-        e.message === "Failed to fetch encrypted file."
-          ? e.message
-          : "Decryption failed — wrong password or corrupted file."
-      );
+      setErrorMsg("Decryption failed — wrong password or corrupted data.");
     }
   }
 
@@ -102,40 +100,38 @@ export default function PasswordDecryptor({ embedded = false }) {
     setPassword("");
     setStatus("idle");
     setErrorMsg("");
-    setTableData(null);
+    setRows([]);
   }
 
   const content = (
     <>
       {!embedded && (
-        <>
-          <Title level={2} className="flex items-center gap-2">
-            <LockOutlined />
-            <span>Dev Access Passwords</span>
-          </Title>
-          <Text type="secondary">
-            Enter the team password to view credentials stored in{" "}
-            <code className="px-1.5 py-0.5 rounded bg-gray-100 text-sm font-mono">
-              PasswordForDevAccess.csv.enc
-            </code>
-          </Text>
-        </>
+        <Title level={2} className="flex items-center gap-2">
+          <LockOutlined />
+          <span>Dev Access Passwords</span>
+        </Title>
       )}
 
       {status !== "success" && (
         <Card className={embedded ? "" : "mt-8"} style={{ maxWidth: 480 }}>
           <div className="flex flex-col gap-4">
+            {notConfigured && (
+              <Alert
+                type="warning"
+                showIcon
+                message="No encrypted passwords configured"
+                description="Paste a base64 encrypted blob into each tool's encryptedCredentials field in MainPage.jsx."
+              />
+            )}
             <Input.Password
               size="large"
               placeholder="Enter password"
               prefix={<LockOutlined className="text-gray-400" />}
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
+              iconRender={(visible) => visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onPressEnter={handleDecrypt}
-              disabled={status === "loading"}
+              disabled={status === "loading" || notConfigured}
             />
             {status === "error" && (
               <Alert type="error" message={errorMsg} showIcon />
@@ -146,33 +142,30 @@ export default function PasswordDecryptor({ embedded = false }) {
               icon={<UnlockOutlined />}
               loading={status === "loading"}
               onClick={handleDecrypt}
-              disabled={!password}
+              disabled={!password || notConfigured}
               block
             >
-              Decrypt
+              Decrypt all ({targets.length})
             </Button>
           </div>
         </Card>
       )}
 
-      {status === "success" && tableData && (
+      {status === "success" && (
         <div className={embedded ? "" : "mt-8"}>
           <div className="flex items-center justify-between mb-4">
             <Text type="success" strong>
               <UnlockOutlined className="mr-1" />
-              Decrypted successfully — {tableData.rows.length} entries
+              Decrypted — {rows.length} passwords
             </Text>
-            <Button size="small" onClick={handleReset}>
-              Lock
-            </Button>
+            <Button size="small" onClick={handleReset}>Lock</Button>
           </div>
           <Table
-            columns={tableData.columns}
-            dataSource={tableData.rows}
+            columns={resultColumns}
+            dataSource={rows}
             pagination={false}
             size="middle"
             bordered
-            scroll={{ x: true }}
           />
         </div>
       )}

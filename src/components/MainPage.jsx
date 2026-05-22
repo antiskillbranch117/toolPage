@@ -15,43 +15,53 @@ import PasswordDecryptor from "./PasswordDecryptor.jsx";
 export default function MainPage() {
   const [activeView, setActiveView] = useState("gallery");
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+  const [decryptedMap, setDecryptedMap] = useState({});
+
+  function handleDecrypt(map) {
+    setDecryptedMap(map);
+    setPasswordModalOpen(false);
+  }
 
   // Sample data — replace with your real tools list.
- const tools = [
-  {
-    emoji: "🧪",
-    name: "GLKB Dev",
-    description:
-      "Development version of the GLKB site for testing new features before production release.",
-    link: "https://dev.glkb.org",
-    category: "Website",
-  },
-  {
-    emoji: "🚀",
-    name: "GLKB Production",
-    description:
-      "Production version of the GLKB site that is currently in use or ready for delivery.",
-    link: "https://glkb.org",
-    category: "Website",
-  },
-  {
-    emoji: "📅",
-    name: "Lab Schedule Manager",
-    description:
-      "Internal lab scheduling tool for managing lab schedules and related resources.",
-    link: "https://scheduler.404nfound.com",
-    backupLink: "http://ec2-13-221-95-92.compute-1.amazonaws.com",
-    category: "Schedule Manager",
-  },
-  {
-    emoji: "🗄️",
-    name: "Database Monitor",
-    description:
-      "Internal database monitoring tool for checking database status and related information.",
-    link: "http://ec2-54-82-104-165.compute-1.amazonaws.com:8101/",
-    category: "Monitor",
-  },
-];
+  const tools = [
+    {
+      emoji: "🧪",
+      name: "GLKB Dev",
+      description:
+        "Development version of the GLKB site for testing new features before production release.",
+      link: "https://dev.glkb.org",
+      category: "Website",
+      encryptedCredentials: "BCgQ0HKfRPF57tWXssHSOK+ZhBq93YJOQ0lcaAuQoeIFvuz4IQ1xPYQrGNdMJCjRM9VLfxsymCKHXYqd3ne4bsGglZpuL8DKDedP/Z5a4jG6122zgdEOHFn6c//QaYoZY1E7hLW/",
+    },
+    {
+      emoji: "🚀",
+      name: "GLKB Production",
+      description:
+        "Production version of the GLKB site that is currently in use or ready for delivery.",
+      link: "https://glkb.org",
+      category: "Website",
+      encryptedCredentials: "",
+    },
+    {
+      emoji: "📅",
+      name: "Lab Schedule Manager",
+      description:
+        "Internal lab scheduling tool for managing lab schedules and related resources.",
+      link: "https://scheduler.404nfound.com",
+      backupLink: "http://ec2-13-221-95-92.compute-1.amazonaws.com",
+      category: "Schedule Manager",
+      encryptedCredentials: "",
+    },
+    {
+      emoji: "🗄️",
+      name: "Database Monitor",
+      description:
+        "Internal database monitoring tool for checking database status and related information.",
+      link: "http://ec2-54-82-104-165.compute-1.amazonaws.com:8101/",
+      category: "Monitor",
+      encryptedCredentials: "",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
@@ -119,12 +129,12 @@ export default function MainPage() {
           </div>
         </div>
 
-        {activeView === "gallery" && <GalleryView tools={tools} />}
-        {activeView === "table" && <TableView tools={tools} />}
-        {activeView === "category" && <CategoryPage tools={tools} />}
+        {activeView === "gallery" && <GalleryView tools={tools} decryptedMap={decryptedMap} />}
+        {activeView === "table" && <TableView tools={tools} decryptedMap={decryptedMap} />}
+        {activeView === "category" && <CategoryPage tools={tools} decryptedMap={decryptedMap} />}
       </div>
 
-      {/* <Modal
+       <Modal
         open={passwordModalOpen}
         onCancel={() => setPasswordModalOpen(false)}
         footer={null}
@@ -137,8 +147,8 @@ export default function MainPage() {
         width={700}
         destroyOnHidden
       >
-        <PasswordDecryptor embedded />
-      </Modal> */}
+        <PasswordDecryptor embedded tools={tools} onDecrypt={handleDecrypt} />
+      </Modal> 
     </div>
   );
 }

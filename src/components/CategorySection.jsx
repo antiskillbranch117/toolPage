@@ -1,7 +1,7 @@
 import { Collapse } from "antd";
 import ToolCard from "./ToolCard.jsx";
 
-export default function CategorySection({ category, tools }) {
+export default function CategorySection({ category, tools, decryptedMap = {} }) {
   const items = [
     {
       key: category,
@@ -15,6 +15,7 @@ export default function CategorySection({ category, tools }) {
               name={tool.name}
               description={tool.description}
               link={tool.link}
+              credentials={decryptedMap[tool.name]}
             />
           ))}
         </div>

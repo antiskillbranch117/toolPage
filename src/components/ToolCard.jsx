@@ -1,30 +1,15 @@
-import { LinkOutlined } from "@ant-design/icons";
+import { LinkOutlined, UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 
-/**
- * ToolCard
- * Ant Design Card with three visually separated sections:
- *   1) Title       — the tool's name (rendered in Card `title` prop)
- *   2) Body        — the tool's description
- *   3) Actions     — link to the tool (rendered in Card `actions` prop)
- *
- * Props:
- *   - name        : string  — the tool's display name
- *   - description : string  — short description of what the tool does
- *   - link        : string  — URL the user can click to open the tool
- *   - emoji       : string  — optional leading emoji (defaults to 🛠️)
- */
-export default function ToolCard({ name, description, link, emoji = "🛠️" }) {
+export default function ToolCard({ name, description, link, emoji = "🛠️", credentials }) {
   return (
     <Card
-      // Section 1: name
       title={
         <span className="flex items-center gap-2">
           <span className="text-lg select-none">{emoji}</span>
           <span className="font-semibold">{name}</span>
         </span>
       }
-      // Section 3: link (rendered as a footer with a top border)
       actions={[
         <a
           key="open"
@@ -40,8 +25,22 @@ export default function ToolCard({ name, description, link, emoji = "🛠️" })
       hoverable
       style={{ width: "100%" }}
     >
-      {/* Section 2: description */}
       <p className="text-sm text-gray-600 leading-5 m-0">{description}</p>
+
+      {credentials && (
+        <div className="mt-3 pt-3 border-t border-gray-100 flex flex-col gap-1">
+          {credentials.username && (
+            <span className="flex items-center gap-2 text-sm">
+              <UserOutlined className="text-gray-400" />
+              <code className="px-1.5 py-0.5 rounded bg-gray-100 text-xs font-mono">{credentials.username}</code>
+            </span>
+          )}
+          <span className="flex items-center gap-2 text-sm">
+            <LockOutlined className="text-gray-400" />
+            <code className="px-1.5 py-0.5 rounded bg-gray-100 text-xs font-mono">{credentials.password}</code>
+          </span>
+        </div>
+      )}
     </Card>
   );
 }
