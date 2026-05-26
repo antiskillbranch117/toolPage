@@ -72,8 +72,11 @@ export default function MainPage() {
         </h1>
 
         <p className="mt-4 text-gray-700 leading-7 max-w-3xl">
-          A toolkit web for the GLKB group to test, manage development work, and support project tasks. Please contact{" "}
-          <a
+A toolkit website for the GLKB group to test tools, manage development work, and support project tasks.
+
+Some tools require access credentials before they can be used. Please click the lock icon and enter the provided password to unlock the username and key for the selected tool.
+
+If you do not have the password or need access, please contact          <a
             href="mailto:lzy@umich.edu"
             className="font-medium text-blue-600 underline hover:text-blue-800"
           >
@@ -86,6 +89,13 @@ export default function MainPage() {
         {/* View tabs + toolbar */}
         <div className="mt-8 flex items-center justify-between border-b border-gray-200 pb-2">
           <div className="flex items-center gap-1 text-sm">
+            <button
+              onClick={() => setActiveView("category")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium ${activeView === "category" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:bg-gray-100"}`}
+            >
+              <BoardIcon />
+              <span>By Category</span>
+            </button>
             <button
               onClick={() => setActiveView("gallery")}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium ${activeView === "gallery" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:bg-gray-100"}`}
@@ -100,22 +110,15 @@ export default function MainPage() {
               <TableIcon />
               <span>Table View</span>
             </button>
-            <button
-              onClick={() => setActiveView("category")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium ${activeView === "category" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:bg-gray-100"}`}
-            >
-              <BoardIcon />
-              <span>By Category</span>
-            </button>
           </div>
 
           <div className="flex items-center gap-1 text-gray-500">
             {/* <ToolbarIcon><FilterIcon /></ToolbarIcon> */}
             {/* <ToolbarIcon><SortIcon active /></ToolbarIcon> */}
             <Tooltip title="Input the password to unlock the username and key of the tools">
-              <ToolbarIcon onClick={() => setPasswordModalOpen(true)}>
+              <button onClick={() => setPasswordModalOpen(true)} className="p-1.5 rounded-md text-gray-500">
                 <LockOutlined />
-              </ToolbarIcon>
+              </button>
             </Tooltip>
             <Select
               showSearch
@@ -164,13 +167,6 @@ export default function MainPage() {
 
 /* ---------- Small icon helpers (inline SVG, no external deps) ---------- */
 
-function ToolbarIcon({ children, onClick, ...rest }) {
-  return (
-    <button onClick={onClick} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500" {...rest}>
-      {children}
-    </button>
-  );
-}
 
 function GridIcon() {
   return (
