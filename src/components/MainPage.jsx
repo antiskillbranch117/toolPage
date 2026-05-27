@@ -89,19 +89,23 @@ export default function MainPage() {
           <span>Tool Directory</span>
         </h1>
 
-        <p className="mt-4 text-gray-700 leading-7 max-w-3xl">
-A toolkit website for the GLKB group to test tools, manage development work, and support project tasks.
+<p className="mt-4 text-left text-gray-700 leading-7 max-w-3xl">
+  A toolkit website for the GLKB group to test tools, manage development work,
+  and support project tasks. Some tools require access credentials before they
+  can be used. Please click the lock icon and enter the provided password to
+  unlock the username and key for the selected tool.
+</p>
 
-Some tools require access credentials before they can be used. Please click the lock icon and enter the provided password to unlock the username and key for the selected tool.
-
-If you do not have the password or need access, please contact          <a
-            href="mailto:lzy@umich.edu"
-            className="font-medium text-blue-600 underline hover:text-blue-800"
-          >
-            lzy@umich.edu
-          </a>{" "}
-          for password.
-        </p>
+<p className="mt-2 text-left text-gray-700 leading-7 max-w-3xl">
+  If you do not have the password or need access, please contact{" "}
+  <a
+    href="mailto:lzy@umich.edu"
+    className="font-medium text-blue-600 underline hover:text-blue-800"
+  >
+    lzy@umich.edu
+  </a>{" "}
+  for password.
+</p>
 
 
         {/* View tabs + toolbar */}
