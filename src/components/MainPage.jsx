@@ -49,7 +49,7 @@ export default function MainPage() {
         "Internal lab scheduling tool for managing lab schedules and related resources.",
       link: "https://scheduler.404nfound.com",
       backupLink: "http://ec2-13-221-95-92.compute-1.amazonaws.com",
-      category: "Schedule Manager",
+      category: "Schedule & Task Management",
       encryptedCredentials: "",
     },
     {
