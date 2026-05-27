@@ -59,6 +59,24 @@ export default function MainPage() {
         "Internal database monitoring tool for checking database status and related information.",
       link: "http://ec2-54-82-104-165.compute-1.amazonaws.com:8101/",
       category: "Monitor",
+      encryptedCredentials: "pBe6rJiCaUcDAQmbFvIgoZpcdATdFIUeX/GZkOW38pMIEZBWz9gqO94YEz1PkMdT8W9qkGKtTfEzZfCMi3egeiZXwgzlsz6y6efQykoRpunTuh1UPE/e25Su",
+    },
+    {
+      emoji: "📊",
+      name: "GLKB Dashboard",
+      description:
+        "Real-time dashboard showing the current status and incident history of GLKB services.",
+      link: "https://glkb-dashboard.vercel.app/",
+      category: "Monitor",
+      encryptedCredentials: "",
+    },
+    {
+      emoji: "📋",
+      name: "Event Tracker",
+      description:
+        "Google Sheets document tracking all GLKB project events and milestones.",
+      link: "https://docs.google.com/spreadsheets/d/1MkI8yj3-raxjHmtKtgbjapqH-G95J-By/edit?usp=drive_link&ouid=101359223465931593169&rtpof=true&sd=true",
+      category: "Tracking",
       encryptedCredentials: "",
     },
   ];
