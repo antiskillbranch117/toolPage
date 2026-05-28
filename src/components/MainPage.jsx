@@ -44,7 +44,7 @@ export default function MainPage() {
     },
     {
       emoji: "📅",
-      name: "Lab Schedule Manager",
+      name: "Schedule & Task Management",
       description:
         "Internal lab scheduling tool for managing lab schedules and related resources.",
       link: "https://scheduler.404nfound.com",
@@ -54,18 +54,18 @@ export default function MainPage() {
     },
     {
       emoji: "🗄️",
-      name: "Database Monitor",
+      name: "User Behavior Dashboard",
       description:
-        "Internal database monitoring tool for checking database status and related information.",
+        "Monitor user activity, search behavior, and engagement metrics across the GLKB platform.",
       link: "http://ec2-54-82-104-165.compute-1.amazonaws.com:8101/",
       category: "Monitor",
       encryptedCredentials: "pBe6rJiCaUcDAQmbFvIgoZpcdATdFIUeX/GZkOW38pMIEZBWz9gqO94YEz1PkMdT8W9qkGKtTfEzZfCMi3egeiZXwgzlsz6y6efQykoRpunTuh1UPE/e25Su",
     },
     {
       emoji: "📊",
-      name: "GLKB Dashboard",
+      name: "Website Error & Service Monitoring",
       description:
-        "Real-time dashboard showing the current status and incident history of GLKB services.",
+        "Real-time monitoring of GLKB website errors, service status, and incident history.",
       link: "https://glkb-dashboard.vercel.app/",
       category: "Monitor",
       encryptedCredentials: "",
