@@ -1,6 +1,6 @@
 import CategorySection from "./CategorySection.jsx";
 
-export default function CategoryPage({ tools, decryptedMap = {} }) {
+export default function CategoryPage({ tools, decryptedMap = {}, onLockClick }) {
   const grouped = tools.reduce((acc, tool) => {
     const cat = tool.category || "Uncategorized";
     if (!acc[cat]) acc[cat] = [];
@@ -11,7 +11,7 @@ export default function CategoryPage({ tools, decryptedMap = {} }) {
   return (
     <div className="mt-6 flex flex-col gap-4">
       {Object.entries(grouped).map(([category, categoryTools]) => (
-        <CategorySection key={category} category={category} tools={categoryTools} decryptedMap={decryptedMap} />
+        <CategorySection key={category} category={category} tools={categoryTools} decryptedMap={decryptedMap} onLockClick={onLockClick} />
       ))}
     </div>
   );

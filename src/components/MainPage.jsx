@@ -49,7 +49,7 @@ export default function MainPage() {
         "Internal lab scheduling tool for managing lab schedules and related resources.",
       link: "https://scheduler.404nfound.com",
       backupLink: "http://ec2-13-221-95-92.compute-1.amazonaws.com",
-      category: "Schedule & Task Management",
+      category: "Schedule Manager",
       encryptedCredentials: "",
     },
     {
@@ -72,9 +72,9 @@ export default function MainPage() {
     },
     {
       emoji: "📋",
-      name: "Event Tracker",
+      name: "GLKB Outreach & Event Tracking",
       description:
-        "Google Sheets document tracking all GLKB project events and milestones.",
+        "Track conferences, seminars, outreach activities, and UTM campaigns related to GLKB promotion.",
       link: "https://docs.google.com/spreadsheets/d/1MkI8yj3-raxjHmtKtgbjapqH-G95J-By/edit?usp=drive_link&ouid=101359223465931593169&rtpof=true&sd=true",
       category: "Tracking",
       encryptedCredentials: "",
@@ -90,14 +90,11 @@ export default function MainPage() {
         </h1>
 
 <p className="mt-4 text-left text-gray-700 leading-7 max-w-3xl">
-  A toolkit website for the GLKB group to test tools, manage development work,
-  and support project tasks. Some tools require access credentials before they
-  can be used. Please click the lock icon and enter the provided password to
-  unlock the username and key for the selected tool.
+Enter the access password to unlock the usernames and passwords for the tools.
 </p>
 
 <p className="mt-2 text-left text-gray-700 leading-7 max-w-3xl">
-  If you do not have the password or need access, please contact{" "}
+  If you do not know the access password, please contact {" "}
   <a
     href="mailto:lzy@umich.edu"
     className="font-medium text-blue-600 underline hover:text-blue-800"
@@ -163,9 +160,9 @@ export default function MainPage() {
           </div>
         </div>
 
-        {activeView === "gallery" && <GalleryView tools={tools} decryptedMap={decryptedMap} />}
+        {activeView === "gallery" && <GalleryView tools={tools} decryptedMap={decryptedMap} onLockClick={() => setPasswordModalOpen(true)} />}
         {activeView === "table" && <TableView tools={tools} decryptedMap={decryptedMap} />}
-        {activeView === "category" && <CategoryPage tools={tools} decryptedMap={decryptedMap} />}
+        {activeView === "category" && <CategoryPage tools={tools} decryptedMap={decryptedMap} onLockClick={() => setPasswordModalOpen(true)} />}
       </div>
 
        <Modal
