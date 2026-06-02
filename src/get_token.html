@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <title>获取 Google Token</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  </head>
+  <body>
+    <div
+      id="g_id_onload"
+      data-client_id="你的_GOOGLE_CLIENT_ID"
+      data-callback="handleCredentialResponse"
+    ></div>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <h3>你的 Token：</h3>
+    <textarea
+      id="token"
+      rows="6"
+      cols="80"
+      placeholder="登录后 token 会显示在这里"
+    ></textarea>
+
+    <script>
+      function handleCredentialResponse(response) {
+        document.getElementById("token").value = response.credential;
+      }
+    </script>
+  </body>
+</html>

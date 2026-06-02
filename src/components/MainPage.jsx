@@ -78,7 +78,15 @@ export default function MainPage() {
       link: "https://docs.google.com/spreadsheets/d/1MkI8yj3-raxjHmtKtgbjapqH-G95J-By/edit?usp=drive_link&ouid=101359223465931593169&rtpof=true&sd=true",
       category: "Tracking",
       encryptedCredentials: "",
-    },
+    },{
+  emoji: "🔐",
+  name: "GLKB Password Vault",
+  description:
+    "Read-only password manager for GLKB members to view shared accounts and passwords. To add a new account/password pair, members should email Jincheng or Zhiyuan.",
+  link: "https://vault-glkb.404nfound.com/mini/",
+  category: "Password Manager",
+  encryptedCredentials: "GJo2gk6bRzCmVn+EFjoqBORoBd4l7lUvOG/DKSjj1vxrpsS/DnqO0rickoz1BvBaMOyHAz4ffHlYf13S/wEZKdTd2Iz5Io9DR/rFOqq2pmaFKuOItQTVjyqeGjNCvbD2nr9mGKXaKqdk7rCx",
+},
   ];
 
   return (
