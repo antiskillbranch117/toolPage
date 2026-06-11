@@ -88,9 +88,9 @@ export default function MainPage() {
   encryptedCredentials: "GJo2gk6bRzCmVn+EFjoqBORoBd4l7lUvOG/DKSjj1vxrpsS/DnqO0rickoz1BvBaMOyHAz4ffHlYf13S/wEZKdTd2Iz5Io9DR/rFOqq2pmaFKuOItQTVjyqeGjNCvbD2nr9mGKXaKqdk7rCx",
 },{
   emoji: "📅",
-  name: "GLKB UTM Event Registry",
+  name: "Event Registration Form",
   description:
-    "A centralized Google Form for GLKB members to register and track UTM-tagged events, including seminars, conferences, social posts, email campaigns, and other marketing activities.",
+    "A Google Form for GLKB members to register  events, including seminars, conferences, social posts, email campaigns, and other marketing activities.",
   link: "https://docs.google.com/forms/d/e/1FAIpQLSc7IanW4gCLaCtCQ3vwcUM2v1fP0zGWHIQ7R92-XlnVxyDC5w/viewform?usp=publish-editor",
   category: "Tracking",
   encryptedCredentials: "",
