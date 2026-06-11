@@ -90,7 +90,7 @@ export default function MainPage() {
   emoji: "📅",
   name: "Event Registration Form",
   description:
-    "A Google Form for GLKB members to register  events, including seminars, conferences, social posts, email campaigns, and other marketing activities.",
+    "A Google Form for folks to sign up to promote GLKB when attending external events, such as seminars, conferences, or other outreach opportunities.",
   link: "https://docs.google.com/forms/d/e/1FAIpQLSc7IanW4gCLaCtCQ3vwcUM2v1fP0zGWHIQ7R92-XlnVxyDC5w/viewform?usp=publish-editor",
   category: "Tracking",
   encryptedCredentials: "",
